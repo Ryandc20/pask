@@ -7,9 +7,10 @@ use dirs::home_dir;
 
 mod cl;
 mod tasks;
-mod tui;
+mod ui;
 use cl::*;
 use tasks::*;
+use ui::run_ui;
 
 /// Gets the path to the current list to manage tasks for.
 fn get_file_name(list_type: Lists) -> String {
@@ -87,8 +88,13 @@ fn main() {
             println!("{}", tasks);
         },
         Commands::Gui => {
-            println!("This is yet to be implemented");
-            println!("{}", tasks);
+            match run_ui(tasks) {
+                Ok(mut tasks_new) => tasks_new.write_tasks(&file_name),
+                Err(_) => {
+                    println!("There was an error when running the gui");
+                    return;
+                }
+            };
         }
     };
 }

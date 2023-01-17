@@ -1,5 +1,4 @@
 use clap::{Parser, Subcommand, Args, ValueEnum};
-
 #[derive(Parser)]
 #[command(author, version, about, long_about = None)] // Will read from Cargo.toml
 pub struct Cli {

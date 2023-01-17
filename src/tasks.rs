@@ -8,18 +8,29 @@ use crate::cl::Add;
 /// Reresents a signle task item 
 #[derive(Serialize, Deserialize)]
 #[derive(Eq)]
+#[derive(Clone)]
 pub struct Task { /// Description of the task
-    desc: String,              
+    pub desc: String,              
     /// Hour minute represents the time to start the task  
-    start_time: Option<(u8, u8)>,
+    pub start_time: Option<(u8, u8)>,
     /// Hour minute represents the time to end the task
-    end_time: Option<(u8, u8)>,
+    pub end_time: Option<(u8, u8)>,
     /// If the task has been completed or not 
-    completed: bool,
+    pub completed: bool,
 
 }
     
 impl Task {
+    /// Retruns a new instance of task
+    pub fn new() -> Self {
+        Self {
+            desc: String::new(), 
+            start_time: None, 
+            end_time: None, 
+            completed: false,
+        }
+    }
+
     /// Takes in a add struct and returns the struct representing the task.
     pub fn from_add(add: Add) -> Result<Self, &'static str> {
         // Parse a string in to hours and minutes. While also making sure it is a valid string 
@@ -116,7 +127,7 @@ impl fmt::Display for Task {
 
 #[derive(Serialize, Deserialize)]
 pub struct Tasks {
-    tasks: Vec<Task>,
+    pub tasks: Vec<Task>,
 }
 
 impl Tasks {
@@ -165,6 +176,13 @@ impl Tasks {
         }
     }
 
+    pub fn complete_task_idx(&mut self, idx: usize) {
+        self.tasks[idx].completed = match self.tasks[idx].completed {
+            true => false,
+            false => true,
+        };
+    }
+
     pub fn del_task(&mut self, desc: String) {
         let mut count = 0;
 
@@ -181,6 +199,10 @@ impl Tasks {
         if remove {
             self.tasks.remove(index);
         }
+    }
+
+    pub fn del_task_idx(&mut self, idx: usize) {
+        self.tasks.remove(idx);
     }
 
     // Sorts the tasks by start time will be implemented soon 

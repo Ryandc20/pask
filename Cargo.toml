@@ -1,6 +1,6 @@
 [package]
 name = "pask"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 license = "MIT OR Apache-2.0"
 description = "A command line program for managing your tasks."
@@ -17,3 +17,5 @@ crossterm = "0.25.0"
 dirs = "4.0.0"
 serde = { version = "1.0.151", features = ["derive"] }
 serde_json = "1.0.91"
+tui = "0.19.0"
+unicode-width = "0.1.10"
